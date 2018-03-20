@@ -1,0 +1,20 @@
+{
+  "name": "clear-done-project-column-on-github",
+  "version": "1.0.0",
+  "description": "Deletes all the cards in a project column that as 'Done' in its title on GitHub",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "eslint index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "graphql-request": "^1.5.1"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.0",
+    "eslint-plugin-github": "^0.23.0"
+  }
+}

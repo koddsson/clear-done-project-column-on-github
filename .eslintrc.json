@@ -1,0 +1,17 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:github/es6",
+    "plugin:github/recommended"
+  ],
+  "rules": {
+    "no-console": "off"
+  }
+}
