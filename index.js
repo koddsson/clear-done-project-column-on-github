@@ -16,6 +16,17 @@ const query = `{
             cards(first:100) {
               nodes {
                 id
+                note
+                content {
+                  ... on PullRequest {
+                    title
+                    url
+                  }
+                  ... on Issue {
+                    title
+                    url
+                  }
+                }
               }
             }
           }
@@ -41,10 +52,31 @@ mutation DeleteProjectCard($input: DeleteProjectCardInput!) {
     return
   }
 
-  console.log(`Found the correct column, proceeding to delete ${cardIds.length} cards`)
+  const cards = {notes: [], links: []}
+  for (const node of column.cards.nodes) {
+    if (node.note) {
+      cards.notes.push(node.note)
+    } else {
+      cards.links.push({
+        title: node.content.title,
+        url: node.content.url
+      })
+    }
+    await client.request(deleteCardMutation, {input: {cardId: node.id}})
+  }
 
-  for (const id of cardIds) {
-    const results = await client.request(deleteCardMutation, {input: {cardId: id}})
-    console.log(results)
+  // TODO: Input current datetime here
+  console.log('# This weeks report')
+  console.log('### Finished notes')
+  for (const note of cards.notes) {
+    console.log(`- ${note}`)
+  }
+
+  console.log('---')
+
+  console.log('### Finished issues and pull requests')
+  // TODO: Reverse this list
+  for (const link of cards.links) {
+    console.log(`- [${link.title}](${link.url})`)
   }
 })()
